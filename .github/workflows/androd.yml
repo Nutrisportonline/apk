@@ -7,13 +7,16 @@ on:
       - main
       - master
 
+permissions:
+  contents: read
+
 jobs:
   build:
-    name: Build NutriSport APK
+    name: Compilar APK NutriSport
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar código
+      - name: Descargar repositorio
         uses: actions/checkout@v4
 
       - name: Configurar Node.js
@@ -24,24 +27,32 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      - name: Instalar Capacitor Android
-        run: npx cap add android
-
-      - name: Sincronizar Capacitor
-        run: npx cap sync android
-
-      - name: Configurar Java 21
+      - name: Configurar Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
+      - name: Agregar Android a Capacitor
+        run: npx cap add android
+
+      - name: Sincronizar aplicación
+        run: npx cap sync android
+
       - name: Dar permisos a Gradle
         run: chmod +x android/gradlew
 
-      - name: Compilar APK Debug
+      - name: Compilar APK
         working-directory: android
         run: ./gradlew assembleDebug --no-daemon
+
+      - name: Verificar APK
+        run: |
+          if [ ! -f android/app/build/outputs/apk/debug/app-debug.apk ]; then
+            echo "ERROR: No se genero el APK"
+            exit 1
+          fi
+          echo "APK generado correctamente"
 
       - name: Subir APK
         uses: actions/upload-artifact@v4
@@ -49,4 +60,3 @@ jobs:
           name: NutriSport-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-```
