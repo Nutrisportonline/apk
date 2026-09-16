@@ -27,8 +27,21 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      - name: Instalar TypeScript
-        run: npm install --save-dev typescript
+      - name: Preparar configuración de Capacitor
+        run: |
+          rm -f capacitor.config.ts
+          rm -f capacitor.config.js
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.nutrisport.app",
+            "appName": "NutriSport",
+            "webDir": "www",
+            "bundledWebRuntime": false,
+            "android": {
+              "allowMixedContent": false
+            }
+          }
+          EOF
 
       - name: Configurar Java
         uses: actions/setup-java@v4
