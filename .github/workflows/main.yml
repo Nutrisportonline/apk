@@ -24,6 +24,17 @@ jobs:
         with:
           node-version: 22
 
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Verificar Java
+        run: |
+          java -version
+          javac -version
+
       - name: Verificar configuración Firebase Android
         run: |
           if [ ! -f google-services.json ]; then
