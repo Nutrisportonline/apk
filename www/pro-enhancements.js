@@ -54,13 +54,16 @@
     const goalText={perder:'reducir peso gradualmente',ganar:'favorecer ganancia de masa muscular',definicion:'reducir grasa manteniendo fuerza',mantener:'mantener peso y rendimiento',personalizado:'seguir tu objetivo personalizado'}[p.goal]||'mejorar hábitos';
     const days=r.days.map((x,i)=>`<div class="nsp-day"><b>${esc(x.split(' • ')[0])}</b><span>${esc(x.split(' • ')[1])}</span>${i<5?`<small>${esc(r.ex[i%r.ex.length])}</small>`:''}</div>`).join('');
     return `<section id="ns-pro-studio" class="ns-studio">
-      <div class="ns-pro-hero"><div><div class="ns-kicker">NUTRISPORT PRO • COACH PERSONAL</div><h2>Tu estrategia, calculada para ti</h2><p>Objetivo: <b>${esc(goalText)}</b>. Las cifras son estimaciones orientativas y el plan prioriza hábitos sostenibles.</p></div><div class="ns-orb">✦</div></div>
-      <div class="ns-grid ns-metrics"><div><small>Objetivo diario</small><strong>${c.target}</strong><span>kcal estimadas</span></div><div><small>Proteína</small><strong>${c.protein} g</strong><span>referencia diaria</span></div><div><small>Carbohidratos</small><strong>${c.carbs} g</strong><span>estimados</span></div><div><small>Hidratación</small><strong>${c.water} ml</strong><span>punto de partida</span></div></div>
-      <div class="ns-grid ns-two"><article><div class="ns-title">🍽️ Menú inteligente</div><p class="ns-muted">Ejemplo de un día adaptado a tu objetivo. Puedes intercambiar alimentos equivalentes.</p><ul class="ns-foods">${foodRows(meals)}</ul><div class="ns-note">Tip: prioriza verduras, frutas, granos integrales y fuentes variadas de proteína; ajusta cantidades según evolución y apetito.</div></article>
-      <article><div class="ns-title">🏋️ Ruta de entrenamiento</div><p class="ns-muted">Combinación semanal diseñada alrededor de tu objetivo.</p><div class="ns-days">${days}</div><div class="ns-note">Meta general: 150–300 min/semana de actividad moderada y fuerza al menos 2 días para adultos, progresando de forma gradual.</div></article></div>
-      <div class="ns-grid ns-two"><article><div class="ns-title">🛒 Lista de compras • 7 días</div><div class="ns-shopping">${shopping(meals)}</div><button class="ns-copy" data-ns-copy="shopping">Copiar lista</button></article>
-      <article><div class="ns-title">🧠 Smart Coach</div><div class="ns-coach"><div>⚡ Si te cuesta llegar a proteína: reparte una fuente proteica en 3–4 comidas.</div><div>🥦 Si buscas reducir peso: aumenta alimentos de baja densidad energética como verduras y fruta entera.</div><div>💪 Si buscas ganar músculo: combina fuerza progresiva con suficiente energía, proteína y recuperación.</div><div>😴 El sueño y la recuperación también forman parte del plan.</div></div></article></div>
-      <div class="ns-disclaimer">NutriSport ofrece orientación general, no diagnóstico ni tratamiento médico. Si tienes una enfermedad, tomas medicamentos, estás embarazada/o o tienes necesidades nutricionales especiales, consulta a un profesional.</div>
+      <div class="ns-pro-hero"><div><div class="ns-kicker">NUTRISPORT PRO • COACH PERSONAL</div><h2>Tu estrategia, calculada para ti</h2><p>Objetivo: <b>${esc(goalText)}</b>. Las cifras son estimaciones orientativas y el plan prioriza hábitos sostenibles.</p></div><div class="ns-orb" aria-hidden="true">✦</div></div>
+      <div class="ns-pro-summary" aria-label="Resumen de tu plan"><div><b>${c.target}</b><span>kcal estimadas</span></div><div><b>${c.protein} g</b><span>proteína</span></div><div><b>${c.carbs} g</b><span>carbohidratos</span></div><div><b>${c.water} ml</b><span>agua de referencia</span></div></div>
+      <button class="ns-pro-toggle" type="button" aria-expanded="false" data-ns-pro-toggle="1">Ver Coach PRO completo ↓</button>
+      <div class="ns-pro-details" aria-hidden="true">
+        <div class="ns-grid ns-two"><article><div class="ns-title">🍽️ Menú inteligente</div><p class="ns-muted">Ejemplo de un día adaptado a tu objetivo. Puedes intercambiar alimentos equivalentes.</p><ul class="ns-foods">${foodRows(meals)}</ul><div class="ns-note">Tip: prioriza verduras, frutas, granos integrales y fuentes variadas de proteína; ajusta cantidades según evolución y apetito.</div></article>
+        <article><div class="ns-title">🏋️ Ruta de entrenamiento</div><p class="ns-muted">Combinación semanal diseñada alrededor de tu objetivo.</p><div class="ns-days">${days}</div><div class="ns-note">Meta general: 150–300 min/semana de actividad moderada y fuerza al menos 2 días para adultos, progresando de forma gradual.</div></article></div>
+        <div class="ns-grid ns-two"><article><div class="ns-title">🛒 Lista de compras • 7 días</div><div class="ns-shopping">${shopping(meals)}</div><button class="ns-copy" data-ns-copy="shopping">Copiar lista</button></article>
+        <article><div class="ns-title">🧠 Smart Coach</div><div class="ns-coach"><div>⚡ Si te cuesta llegar a proteína: reparte una fuente proteica en 3–4 comidas.</div><div>🥦 Si buscas reducir peso: aumenta alimentos de baja densidad energética como verduras y fruta entera.</div><div>💪 Si buscas ganar músculo: combina fuerza progresiva con suficiente energía, proteína y recuperación.</div><div>😴 El sueño y la recuperación también forman parte del plan.</div></div></article></div>
+        <div class="ns-disclaimer">NutriSport ofrece orientación general, no diagnóstico ni tratamiento médico. Si tienes una enfermedad, tomas medicamentos, estás embarazada/o o tienes necesidades nutricionales especiales, consulta a un profesional.</div>
+      </div>
     </section>`;
   }
   function normalGuide(p){
@@ -77,7 +80,10 @@
       if(isPro(p)){if(!existing){body.insertAdjacentHTML('beforeend',build(p));bind();}} else {if(!free)body.insertAdjacentHTML('beforeend',normalGuide(p));}
     } else {existing?.remove();free?.remove();}
   }
-  function bind(){document.querySelectorAll('[data-ns-copy="shopping"]').forEach(b=>{if(b.dataset.bound)return;b.dataset.bound='1';b.onclick=()=>{const t=b.parentElement.querySelector('.ns-shopping')?.innerText||'';navigator.clipboard?.writeText(t).then(()=>{b.textContent='✓ Copiado';setTimeout(()=>b.textContent='Copiar lista',1500)}).catch(()=>{})}})}
+  function bind(){
+    document.querySelectorAll('[data-ns-copy="shopping"]').forEach(b=>{if(b.dataset.bound)return;b.dataset.bound='1';b.onclick=async()=>{const t=b.parentElement.querySelector('.ns-shopping')?.innerText||'';try{await navigator.clipboard?.writeText(t);b.textContent='✓ Copiado';window.NutriSportUX?.toast?.('Lista copiada');setTimeout(()=>b.textContent='Copiar lista',1500)}catch(e){window.NutriSportUX?.toast?.('No se pudo copiar automáticamente.')}}});
+    document.querySelectorAll('[data-ns-pro-toggle]').forEach(b=>{if(b.dataset.bound)return;b.dataset.bound='1';b.onclick=()=>{const d=b.parentElement.querySelector('.ns-pro-details');const open=!!d?.classList.toggle('is-open');b.setAttribute('aria-expanded',open?'true':'false');d?.setAttribute('aria-hidden',open?'false':'true');b.textContent=open?'Ocultar Coach PRO ↑':'Ver Coach PRO completo ↓';if(open)d?.scrollIntoView({behavior:'smooth',block:'start'});}});
+  }
   function explainRegistration(){
     const map=[['Edad','Tu edad en años. Se usa para estimar tus necesidades energéticas.'],['Peso kg','Tu peso actual en kilogramos.'],['Altura cm','Tu estatura en centímetros.'],['Actividad física','Elige el nivel que más se parezca a una semana normal: incluye ejercicio y movimiento habitual.'],['Objetivo','El resultado que buscas: perder peso, mantenerlo, ganar masa o hacer definición.']];
     document.querySelectorAll('input,select').forEach(el=>{if(el.dataset.nsHelp)return;const ph=el.placeholder||'';let hit=map.find(x=>ph.includes(x[0])||((el.parentElement?.innerText||'').includes(x[0])));if(!hit)return;el.dataset.nsHelp='1';const s=document.createElement('div');s.className='ns-field-help';s.textContent=hit[1];el.insertAdjacentElement('afterend',s)});
@@ -93,8 +99,15 @@
         try{await user.delete();}
         catch(e){
           if(e.code==='auth/requires-recent-login'){
-            if(user.providerData?.some(x=>x.providerId==='google.com')) await user.reauthenticateWithPopup(new firebase.auth.GoogleAuthProvider());
-            else {const pw=prompt('Por seguridad, vuelve a escribir tu contraseña para confirmar la eliminación:');if(!pw)throw e;await user.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(user.email,pw));}
+            if(user.providerData?.some(x=>x.providerId==='google.com')) {
+              if(window.Capacitor?.getPlatform?.()==='android'){
+                const np=window.Capacitor?.Plugins?.FirebaseAuthentication;
+                if(!np?.signInWithGoogle) throw e;
+                const rr=await np.signInWithGoogle({useCredentialManager:true,skipNativeAuth:true});
+                const tok=rr?.credential?.idToken; if(!tok) throw e;
+                await firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(tok,rr?.credential?.accessToken||null));
+              } else await user.reauthenticateWithPopup(new firebase.auth.GoogleAuthProvider());
+            } else {const pw=prompt('Por seguridad, vuelve a escribir tu contraseña para confirmar la eliminación:');if(!pw)throw e;await user.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(user.email,pw));}
             await user.delete();
           } else throw e;
         }

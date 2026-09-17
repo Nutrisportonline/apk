@@ -7,6 +7,12 @@ const config: CapacitorConfig = {
   bundledWebRuntime: false,
   android: {
     allowMixedContent: false
+  },
+  plugins: {
+    FirebaseAuthentication: {
+      skipNativeAuth: false,
+      providers: ['google.com']
+    }
   }
 };
 

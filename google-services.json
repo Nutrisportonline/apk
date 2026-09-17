@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "203433318539",
+    "project_id": "nutritrack-v2-ab92f",
+    "storage_bucket": "nutritrack-v2-ab92f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203433318539:android:c425b979ce10f1ef829c8e",
+        "android_client_info": {
+          "package_name": "com.nutrisport.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203433318539-q7cv1ad72i601m79aa55mvebjmp9emsr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nutrisport.app",
+            "certificate_hash": "468119f0daca2c5123fb7504216ce84f008379c7"
+          }
+        },
+        {
+          "client_id": "203433318539-8a0p3svrbb470stk4oq95v1h0gq240qo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbp6b3UrC_PAxoAf6ttKkMr67qCQ9t2QM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203433318539-8a0p3svrbb470stk4oq95v1h0gq240qo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
